@@ -6,50 +6,51 @@
   <title>DELVO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
-      background-color: #3b82f6;
+      background: radial-gradient(circle at 50% 30%, #2563eb, #1e3a8a, #0f172a);
       color: #ffffff;
       min-height: 100vh;
       display: flex;
       overflow-x: hidden;
     }
 
-    /* Hover Trigger Area on the Left Edge */
+    /* Sidebar Trigger Area */
     .sidebar-trigger {
       position: fixed;
       top: 0;
       left: 0;
-      width: 20px;
+      width: 16px;
       height: 100vh;
       z-index: 100;
     }
 
-    /* Collapsible Sidebar */
+    /* Liquid Glass Sidebar */
     aside {
       position: fixed;
       top: 0;
-      left: -260px;
-      width: 260px;
+      left: -240px;
+      width: 240px;
       height: 100vh;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-right: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 32px 24px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 28px 20px;
       display: flex;
       flex-direction: column;
-      gap: 40px;
-      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 32px;
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 90;
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
     }
 
     .sidebar-trigger:hover + aside,
@@ -60,43 +61,43 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
 
     .brand img {
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
     }
 
     .brand span {
-      font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: -0.03em;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
       color: #ffffff;
     }
 
     nav {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     nav button {
       background: transparent;
       border: none;
-      color: rgba(255, 255, 255, 0.8);
-      padding: 12px 16px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 10px 14px;
       border-radius: 8px;
       text-align: left;
-      font-weight: 600;
-      font-size: 0.95rem;
+      font-weight: 500;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     nav button:hover, nav button.active {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
     }
 
@@ -110,33 +111,42 @@
       position: relative;
     }
 
-    /* Center Auth Section */
-    .hero-content {
+    /* Liquid Glass Card Center */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 36px 48px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 480px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     }
 
-    .logo-large {
-      width: 110px;
-      height: 110px;
-      margin-bottom: 24px;
+    .logo-main {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 16px;
       object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
     }
 
     h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 8px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
     }
 
     p.subtitle {
-      font-size: 1.05rem;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 32px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 24px;
       font-weight: 400;
     }
 
@@ -144,29 +154,31 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       background: #ffffff;
-      color: #1d4ed8;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 16px 32px;
-      border-radius: 12px;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 12px 24px;
+      border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       border: none;
       cursor: pointer;
+      width: 100%;
     }
 
     .btn-discord:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
     }
 
     .btn-discord svg {
-      width: 22px;
-      height: 22px;
-      fill: #1d4ed8;
+      width: 18px;
+      height: 18px;
+      fill: #5865F2;
     }
 
     /* 3D Circular Animation Container */
@@ -175,7 +187,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      perspective: 1000px;
       animation: fadeIn 0.3s ease;
     }
 
@@ -184,13 +195,13 @@
     }
 
     .sphere-3d {
-      width: 120px;
-      height: 120px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffffff, #60a5fa, #1d4ed8);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+      background: radial-gradient(circle at 30% 30%, #ffffff, #3b82f6, #1d4ed8);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
       animation: floatSmooth 4s infinite ease-in-out;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
 
     @keyframes floatSmooth {
@@ -198,25 +209,25 @@
         transform: translateY(0) scale(1);
       }
       50% {
-        transform: translateY(-12px) scale(1.03);
+        transform: translateY(-8px) scale(1.02);
       }
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
+      from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
     }
 
     .coming-soon-title {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
 
     .coming-soon-desc {
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 8px;
-      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 6px;
+      font-size: 0.85rem;
     }
   </style>
 </head>
@@ -228,8 +239,7 @@
   <!-- Sidebar -->
   <aside>
     <div class="brand">
-      <!-- Wklej plik z logo do folderu jako logo.png -->
-      <img src="logo.png" alt="DELVO Logo" onerror="this.style.display='none'">
+      <img src="logo.png" alt="DELVO" onerror="this.style.display='none'">
       <span>DELVO</span>
     </div>
     <nav>
@@ -245,16 +255,16 @@
   <main>
     
     <!-- Hero / Auth Section -->
-    <div class="hero-content" id="hero-section">
-      <img src="logo.png" alt="DELVO Logo" class="logo-large" onerror="this.style.display='none'">
+    <div class="glass-card" id="hero-section">
+      <img src="logo.png" alt="DELVO Logo" class="logo-main" onerror="this.style.display='none'">
       <h1>DELVO</h1>
-      <p class="subtitle">All-in-one bot discord</p>
+      <p class="subtitle">Bot Management Dashboard</p>
 
       <a href="https://discord.com/oauth2/authorize?client_id=1553331724690128896&permissions=8&integration_type=0&scope=bot+applications.commands" class="btn-discord" target="_blank">
         <svg viewBox="0 0 127.14 96.36">
           <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a73.57,73.57,0,0,0,64.32,0c.87.69,1.76,1.37,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-18.91-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.86,53,48.73,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,45.92,96.09,53,91,65.69,84.69,65.69Z"/>
         </svg>
-        Login with Discord
+        Add Bot to Discord
       </a>
     </div>
 
@@ -262,7 +272,7 @@
     <div class="coming-soon-container" id="coming-soon">
       <div class="sphere-3d"></div>
       <div class="coming-soon-title">Coming Soon</div>
-      <div class="coming-soon-desc" id="coming-soon-section">This feature is under development.</div>
+      <div class="coming-soon-desc" id="coming-soon-section">This section is currently under development.</div>
     </div>
 
   </main>
@@ -288,7 +298,7 @@
       setActiveBtn(btn);
       heroSection.style.display = 'none';
       comingSoon.classList.add('active');
-      comingSoonSection.innerText = `${sectionName} module is coming soon.`;
+      comingSoonSection.innerText = `${sectionName} module is under development.`;
     }
   </script>
 
