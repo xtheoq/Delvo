@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Dashboard</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --sidebar-width: 260px;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    aside {
+      width: var(--sidebar-width);
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #38bdf8, var(--primary));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    nav button {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    nav button:hover, nav button.active {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Main Area */
+    main {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+    }
+
+    /* Content Area */
+    .content-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Center Auth Section */
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .auth-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .auth-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    /* 3D Circular Animation Container */
+    .coming-soon-container {
+      position: absolute;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 800px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .coming-soon-container.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .sphere-3d {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #7dd3fc, var(--primary), #0369a1);
+      box-shadow: 0 20px 40px rgba(2, 132, 199, 0.35), inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+      animation: floatRotate 6s infinite ease-in-out;
+      margin-bottom: 24px;
+    }
+
+    @keyframes floatRotate {
+      0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+      50% {
+        transform: translateY(-15px) rotateX(180deg) rotateY(180deg) scale(1.05);
+      }
+      100% {
+        transform: translateY(0px) rotateX(360deg) rotateY(360deg) scale(1);
+      }
+    }
+
+    .coming-soon-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .coming-soon-desc {
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu Boczne -->
+  <aside>
+    <div class="brand">
+      <div class="brand-icon">B</div>
+      <span>Bot Dashboard</span>
+    </div>
+    <nav>
+      <button class="nav-btn active" onclick="showDashboard()">Dashboard</button>
+      <button class="nav-btn" onclick="showComingSoon('Serwery')">Serwery</button>
+      <button class="nav-btn" onclick="showComingSoon('Komendy')">Komendy</button>
+      <button class="nav-btn" onclick="showComingSoon('Statystyki')">Statystyki</button>
+      <button class="nav-btn" onclick="showComingSoon('Ustawienia')">Ustawienia</button>
+    </nav>
+  </aside>
+
+  <!-- Główny Panel -->
+  <main>
+    <header>
+      <h1 id="page-title">Dashboard</h1>
+      <div class="status-badge">
+        <span class="dot"></span> Online
+      </div>
+    </header>
+
+    <div class="content-container">
+      
+      <!-- Karta Autoryzacji (Środek) -->
+      <div class="auth-card" id="auth-card">
+        <h2>Zarządzaj Swoim Botem</h2>
+        <p>Zaloguj się przez konto Discord, aby uzyskać dostęp do panelu lub dodaj bota bezpośrednio na swój serwer.</p>
+
+        <div class="btn-group">
+          <!-- Twój Scope / Auth Link -->
+          <a href="https://discord.com/oauth2/authorize?client_id=1553331724690128896&permissions=8&integration_type=0&scope=bot+applications.commands" class="btn btn-primary" target="_blank">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            Add to Server
+          </a>
+
+          <button class="btn btn-secondary" onclick="simulateLogin()">
+            Login with Discord
+          </button>
+        </div>
+      </div>
+
+      <!-- Animacja 3D Coming Soon -->
+      <div class="coming-soon-container" id="coming-soon">
+        <div class="sphere-3d"></div>
+        <div class="coming-soon-title">Coming Soon</div>
+        <div class="coming-soon-desc" id="coming-soon-section">Ta sekcja jest w trakcie przygotowania.</div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const authCard = document.getElementById('auth-card');
+    const comingSoon = document.getElementById('coming-soon');
+    const pageTitle = document.getElementById('page-title');
+    const comingSoonSection = document.getElementById('coming-soon-section');
+    const navButtons = document.querySelectorAll('.nav-btn');
+
+    function setActiveBtn(button) {
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+
+    function showDashboard() {
+      setActiveBtn(event.target);
+      pageTitle.innerText = "Dashboard";
+      comingSoon.classList.remove('active');
+      authCard.style.display = 'block';
+    }
+
+    function showComingSoon(sectionName) {
+      setActiveBtn(event.target);
+      pageTitle.innerText = sectionName;
+      authCard.style.display = 'none';
+      comingSoon.classList.add('active');
+      comingSoonSection.innerText = `Sekcja ${sectionName} będzie dostępna już wkrótce.`;
+    }
+
+    function simulateLogin() {
+      // Przekierowanie do logowania tym samym linkiem OAuth2
+      window.location.href = "https://discord.com/oauth2/authorize?client_id=1553331724690128896&permissions=8&integration_type=0&scope=bot+applications.commands";
+    }
+  </script>
+
+</body>
+</html>
